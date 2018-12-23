@@ -1,0 +1,176 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Brief Article}
+\author{The Author}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+
+\author{Jakree Koosakul}
+\title{The Marginal Propensity to Consume under Different Mortality Assumptions}
+
+\begin{document}
+
+\maketitle
+
+
+This project is related to Carroll et al. (2017) and the associated cstwMPC module on HARK. It has two objectives. The first involves assessing the sensitivity of the life cycle results in Section 5 of Carroll et al. (2017) to different assumptions on the mortality rates of agents in the model. The second involves modifying HARK code to allow future users to conveniently adjust mortality assumptions outside of HARK. A pull request has been submitted alongside this summary to accomplish this. 
+
+\section{The MPC under Different Mortality Assumptions}
+
+To calibrate the life cycle specification, Carroll et al. (2017) uses US Actuarial Life Table data from the Social Security Administration for the year 2010. This is tantamount to assuming that the probability of death by age for the agents in the model evolves according to the yellow line in Figure 1. To explore the sensitivity of the results to this assumption, I instead use data for Japan for the years 1947 and 2016. The motivation for this choice is that the mortality rates for Japan in these two periods are significantly different from those for the US, especially the 1947 period. As can be seen from Figure 1, the death rates are substantially higher for Japan in 1954 compared to the US. On the contrary, the 2016 Japanese rates are noticibly lower. These numbers translate to substantally lower life expectancies for Japan in 1947, and higher numbers for Japan in 2016. Therefore, using these two sets of data could provide useful alternative scenarios in which to study the MPC of consumers by age.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Chart1}
+  \includegraphics[width=\linewidth]{Chart2}
+\end{figure}    
+
+The results under the different assumptions are shown in Table 1. Overall, the estimates do not vary significantly across the scenarios, suggesting that the results in Carroll et al. (2017) are reasonably robust. It is interesting to see, however, that the MPC values for Japan for the year 1947 are \textit{lower} than those for the US and contemporary Japan. This is somewhat counterintuitive, given that the Japanese have much higher probability of death in 1974 compared to their contemporary counterparts as well as their US counterparts. This implies that they should have higher MPC, since saving might turn out to be an unprofitable enterprise given the higher probability of untimely death. The lower MPC values also hold across the distribution of weath and income. At the same time, it can be seen that the Lorenz distance score is much higher for Japan in 1947 and, to a more limited extent, in 2016, compared to the US case. This could mean that the estimates for Japan are more imprecisely obtained compared to those for the US.  
+
+
+\begin{table} 
+\centering 
+\caption{MPC under Different Mortality Assumptions} % Table caption, can be commented out if no caption is required
+\begin{tabular}{l c c c} % The final bracket specifies the number of columns in the table along with left and right borders which are specified using vertical pipes (|); each column can be left, right or center-justified using l, r or c. Columns will widen to hold the content in them by default, to specify a precise width, use p{width}, e.g. p{5cm}
+\toprule % Top horizontal line
+& \multicolumn{3}{c}{\textbf{MPC}} \\ % Amalgamating several columns into one cell is done using the \multicolumn command with the number of columns to amalgamate as the first argument and then the justification (l, r or c)
+\cmidrule(l){2-4} % Horizontal line spanning less than the full width of the table - you can add (r) or (l) just before the opening curly bracket to shorten the rule on the left or right side
+\textbf{Wealth Measure} & US2010 & JP1947 & JP2016 \\ % Column names row
+\midrule % In-table horizontal line
+Overal average & 0.16  & 0.12 & 0.16  \\ 
+\midrule % In-table horizontal line
+By wealth/permanent income ratio \\ 
+ Top 1\% & 0.09 & 0.11 & 0.08 \\ 
+ Top 10\% & 0.10 & 0.11 & 0.09 \\ 
+ Top 20\% & 0.09 & 0.10 & 0.09 \\ 
+ Top 20-40\% & 0.08 & 0.08 & 0.09 \\ 
+ Top 40-60\% & 0.08 & 0.07 & 0.08 \\ 
+ Top 60-80\% & 0.15 & 0.08 & 0.12 \\ 
+ Bottom 20\% & 0.41 & 0.26 & 0.40 \\ 
+\midrule % In-table horizontal line
+By income \\ 
+ Top 1\% & 0.10 & 0.08 & 0.11 \\ 
+ Top 10\% & 0.12 & 0.09 & 0.12 \\ 
+ Top 20\% & 0.13 & 0.09 & 0.13 \\ 
+ Top 20-40\% & 0.15 & 0.11 & 0.15 \\ 
+ Top 40-60\% & 0.16 & 0.12 & 0.16 \\ 
+ Top 60-80\% & 0.15 & 0.13 & 0.16 \\ 
+ Bottom 20\% & 0.18 & 0.15 & 0.18 \\ 
+\midrule % In-table horizontal line
+By employment status
+ Employed & 0.13 & 0.10 & 0.13  \\ 
+ Unemployed & 0.18 & 0.12 & 0.20 \\ 
+\midrule % In-table horizontal line
+ Lorenz Distance & 16.03 & 23.15 & 17.11  \\ 
+\bottomrule % Bottom horizontal line
+\end{tabular}
+
+\label{tab:template} % A label for referencing this table elsewhere, references are used in text as \ref{label}
+\end{table}
+
+\section{Code Modification on HARK}
+
+I have made some modification to the SetupParamsCSTW.py module and submitted a pull request for the modified code, the 2 Japanese datasets used in this summary, and a notepad file outlining instructions for future users interested in using alternative mortality datasets on how to incorporate the alternative dataset(s). The modified code is done in such a way that will not affect existing users of the cstw module.
+
+\begin{thebibliography}{9}
+\bibitem{latexcompanion} 
+Carroll C., J. Slacalek, K. Tokuoka and M. N. White, "The Distribution of Wealth and the Marginal Propensity to Consume"
+\textit{Quantitative Economics}, 2017.
+\end{thebibliography}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
